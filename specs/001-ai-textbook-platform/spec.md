@@ -99,6 +99,11 @@ As a returning student, I want to authenticate with the platform and maintain my
 - **FR-008**: System MUST preserve chat history for authenticated users
 - **FR-009**: Users MUST be able to provide feedback on chatbot responses
 - **FR-010**: System MUST be deployed to GitHub Pages for public access
+- **FR-011**: System MUST provide graceful fallback with error messaging when external AI services are unavailable
+- **FR-012**: System MUST retain user data only as long as necessary for service functionality
+- **FR-013**: System MUST handle content updates with versioning to preserve user context
+- **FR-014**: System MUST apply personalization at chapter/section level for consistent user experience
+- **FR-015**: System MUST maintain basic functionality with graceful degradation of advanced features under high load
 
 ### Key Entities
 
@@ -122,3 +127,14 @@ As a returning student, I want to authenticate with the platform and maintain my
 - **SC-008**: All bonus features (authentication, personalization, translation) are successfully implemented
 - **SC-009**: Platform is successfully deployed to GitHub Pages and accessible to hackathon judges
 - **SC-010**: Response time for chatbot queries is under 3 seconds for 95% of requests
+- **SC-011**: Platform maintains core textbook functionality during high load periods with graceful degradation of advanced features
+
+## Clarifications
+
+### Session 2025-12-09
+
+- Q: How should the system behave when external AI services (for chatbot or translation) are unavailable? → A: System provides graceful fallback with error messaging
+- Q: What are the privacy and data retention requirements for user information collected during the authentication and profiling process? → A: User data retained only as long as necessary for service functionality
+- Q: How frequently should the system handle content updates, and what happens to user preferences or chat history when content changes? → A: Content updates handled with versioning to preserve user context
+- Q: At what level should content personalization be applied - by chapter, by section, or by specific concepts within content? → A: Personalization applied at chapter/section level for consistent experience
+- Q: How should the system handle performance degradation under high load - should it maintain basic functionality with reduced features or maintain full functionality for fewer users? → A: System maintains basic functionality with graceful degradation of advanced features
