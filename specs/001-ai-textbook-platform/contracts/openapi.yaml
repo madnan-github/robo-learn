@@ -1,0 +1,474 @@
+openapi: 3.0.3
+info:
+  title: AI-Native Textbook Platform API
+  description: API for the Physical AI & Humanoid Robotics textbook platform
+  version: 1.0.0
+  contact:
+    name: Platform Support
+    email: support@example.com
+
+servers:
+  - url: https://api.example.com
+    description: Production server
+  - url: https://staging-api.example.com
+    description: Staging server
+
+paths:
+  /api/chat:
+    post:
+      summary: Send a message to the RAG chatbot
+      description: Send a message to the chatbot and receive a response based on textbook content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  description: The user's message to the chatbot
+                  example: "Explain ROS 2 nodes in simple terms"
+                sessionId:
+                  type: string
+                  description: Optional session ID to continue a conversation
+                  example: "session-123"
+                selectedText:
+                  type: string
+                  description: Optional selected text to provide context
+                  example: "ROS 2 nodes are..."
+                userId:
+                  type: string
+                  description: Optional user ID for authenticated users
+                  example: "user-456"
+      responses:
+        '200':
+          description: Successful response from the chatbot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "msg-789"
+                  content:
+                    type: string
+                    example: "ROS 2 nodes are..."
+                  citations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        chapterId:
+                          type: string
+                        title:
+                          type: string
+                        page:
+                          type: number
+                  sessionId:
+                    type: string
+                    example: "session-123"
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /api/chat/context:
+    post:
+      summary: Get context-aware response for selected text
+      description: Special endpoint for handling queries about selected text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+                - selectedText
+              properties:
+                message:
+                  type: string
+                  description: The user's question about the selected text
+                selectedText:
+                  type: string
+                  description: The text that was selected by the user
+                userId:
+                  type: string
+                  description: Optional user ID for authenticated users
+      responses:
+        '200':
+          description: Context-aware response from the chatbot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  citations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        chapterId:
+                          type: string
+                        title:
+                          type: string
+                        page:
+                          type: number
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /api/history/{userId}:
+    get:
+      summary: Retrieve user's chat history
+      description: Get all chat sessions for a specific user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user whose history to retrieve
+      responses:
+        '200':
+          description: List of chat sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+                    lastMessageAt:
+                      type: string
+                      format: date-time
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /api/session/{sessionId}:
+    get:
+      summary: Retrieve messages in a specific chat session
+      description: Get all messages in a specific chat session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the session to retrieve
+      responses:
+        '200':
+          description: List of messages in the session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    role:
+                      type: string
+                      enum: [user, assistant]
+                    content:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+        '404':
+          description: Session not found
+        '500':
+          description: Internal server error
+
+  /api/feedback:
+    post:
+      summary: Submit feedback on a chat response
+      description: Rate the quality of a chatbot response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - messageId
+                - rating
+              properties:
+                messageId:
+                  type: string
+                  description: The ID of the message being rated
+                rating:
+                  type: integer
+                  description: Rating from 1 to 5
+                  minimum: 1
+                  maximum: 5
+                comment:
+                  type: string
+                  description: Optional comment about the feedback
+      responses:
+        '200':
+          description: Feedback submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /api/ingest:
+    post:
+      summary: Ingest new textbook content (admin only)
+      description: Add or update textbook content in the vector database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+                - chapterId
+              properties:
+                content:
+                  type: string
+                  description: The textbook content to be ingested
+                chapterId:
+                  type: string
+                  description: The ID of the chapter this content belongs to
+                moduleId:
+                  type: string
+                  description: The module ID this content belongs to
+      responses:
+        '200':
+          description: Content ingested successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  chunks:
+                    type: integer
+                    description: Number of content chunks processed
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /api/user/profile:
+    get:
+      summary: Get user profile
+      description: Retrieve the current user's profile information
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  background:
+                    type: object
+                    properties:
+                      software_exp:
+                        type: string
+                        enum: [beginner, intermediate, expert]
+                      hardware_exp:
+                        type: string
+                        enum: [beginner, intermediate, expert]
+                      robotics_exp:
+                        type: string
+                        enum: [beginner, intermediate, expert]
+                  preferences:
+                    type: object
+                    properties:
+                      language:
+                        type: string
+                      personalization_level:
+                        type: string
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+    put:
+      summary: Update user profile
+      description: Update the current user's profile information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                background:
+                  type: object
+                  properties:
+                    software_exp:
+                      type: string
+                      enum: [beginner, intermediate, expert]
+                    hardware_exp:
+                      type: string
+                      enum: [beginner, intermediate, expert]
+                    robotics_exp:
+                      type: string
+                      enum: [beginner, intermediate, expert]
+                preferences:
+                  type: object
+                  properties:
+                    language:
+                      type: string
+                    personalization_level:
+                      type: string
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /api/translate:
+    post:
+      summary: Translate content to Urdu
+      description: Translate text content to Urdu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  type: string
+                  description: The text to translate
+                sourceLang:
+                  type: string
+                  description: Source language (default: en)
+                targetLang:
+                  type: string
+                  description: Target language (default: ur)
+      responses:
+        '200':
+          description: Translation completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  translatedText:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        background:
+          type: object
+          properties:
+            software_exp:
+              type: string
+            hardware_exp:
+              type: string
+            robotics_exp:
+              type: string
+        preferences:
+          type: object
+          properties:
+            language:
+              type: string
+            personalization_level:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    ChatSession:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        sessionId:
+          type: string
+        userId:
+          type: string
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        contextChunks:
+          type: array
+          items:
+            type: object
+        createdAt:
+          type: string
+          format: date-time
