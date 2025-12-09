@@ -1,55 +1,45 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT
+Version change: N/A → 1.0.0
+Modified principles: N/A (new constitution)
+Added sections: All sections (new constitution)
+Removed sections: N/A
+Templates requiring updates:
+  - ✅ .specify/templates/plan-template.md - Constitution Check section will automatically incorporate new principles
+  - ✅ .specify/templates/spec-template.md - No direct dependencies to update
+  - ✅ .specify/templates/tasks-template.md - No direct dependencies to update
+  - ✅ .specify/templates/adr-template.md - Aligns with constitution ADR requirements
+  - ✅ .specify/templates/checklist-template.md - No direct dependencies to update
+Follow-up TODOs: None
+-->
+# Physical AI & Humanoid Robotics Textbook Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Spec-First, AI-Augmented Development
+We do not write code or chapters without a clear spec. All development follows the Spec-Kit Plus methodology with atomic tasks under 2 hours.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Technical Stack Compliance
+Frontend/Content: Docusaurus, React, TypeScript, MDX. Backend/AI: Python 3.12+, FastAPI. Database: Neon Serverless Postgres, Qdrant. Auth: Better-Auth.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Quality Standards Compliance
+Python: mypy compliant type hints, Google-style docstrings, pytest. Frontend: TypeScript strict mode, reusable components. Content: Learning Outcomes + Assessments.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Architecture Decision Records (ADRs) Requirement
+ADRs required for RAG retrieval logic, Urdu translation pipeline, and User Personalization data schema.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Curriculum Alignment Validation
+No code is committed without passing tests; no content is committed without passing a 'Curriculum Alignment' check following the syllabus modules.
 
-### [PRINCIPLE_6_NAME]
+### Hackathon Speed with Stability
+Speed is key, but stability is mandatory. The platform must support the 4 bonus features: RAG Chatbot, Auth, Personalization, and Urdu Translation.
 
+## Course Module Standards
+Module 1: The Robotic Nervous System (ROS 2). Module 2: The Digital Twin (Gazebo & Unity). Module 3: The AI-Robot Brain (NVIDIA Isaac™). Module 4: Vision-Language-Action (VLA). Capstone: The Autonomous Humanoid.
 
-[PRINCIPLE__DESCRIPTION]
-
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Development Workflow
+Work performed in atomic tasks (<2 hours). All outputs strictly follow user intent. Prompt History Records (PHRs) created automatically for every user prompt.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+Constitution supersedes all other practices. Amendments require documentation and approval. All work follows the Spec-First methodology with explicit error paths and constraints. Architectural decisions that meet significance criteria must be documented as ADRs.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-09 | **Last Amended**: 2025-12-09
