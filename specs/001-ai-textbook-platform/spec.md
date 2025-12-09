@@ -1,6 +1,6 @@
 # Feature Specification: AI-Native Textbook Platform for Physical AI & Humanoid Robotics
 
-**Feature Branch**: `1-ai-textbook-platform`
+**Feature Branch**: `001-ai-textbook-platform`
 **Created**: 2025-12-09
 **Status**: Draft
 **Input**: User description: "AI-Native Textbook Platform for \"Physical AI & Humanoid Robotics\" Course - Unified platform combining Docusaurus textbook with integrated RAG chatbot"

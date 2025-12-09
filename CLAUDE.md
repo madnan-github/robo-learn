@@ -208,3 +208,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- Python 3.12+ (backend), TypeScript/JavaScript (frontend), MDX for content + FastAPI (backend), Docusaurus v3.4.0 (frontend), React, Tailwind CSS, Better-Auth, Qdrant, Neon Postgres (001-ai-textbook-platform)
+- Neon Serverless Postgres (user data, chat history), Qdrant Cloud (vector store for RAG), GitHub Pages (static hosting) (001-ai-textbook-platform)
+
+## Recent Changes
+- 001-ai-textbook-platform: Added Python 3.12+ (backend), TypeScript/JavaScript (frontend), MDX for content + FastAPI (backend), Docusaurus v3.4.0 (frontend), React, Tailwind CSS, Better-Auth, Qdrant, Neon Postgres
